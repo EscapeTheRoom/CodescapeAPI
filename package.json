@@ -1,5 +1,5 @@
 {
-  "name": "capstone",
+  "name": "capstone-docker",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "pg": "^7.6.1",
+    "sequelize": "^4.41.2"
   }
 }
