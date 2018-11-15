@@ -11,7 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
+    "morgan": "^1.9.1",
     "pg": "^7.6.1",
-    "sequelize": "^4.41.2"
+    "regex": "^0.1.1",
+    "sequelize": "^4.41.2",
+    "xregexp": "^4.2.0"
   }
 }
