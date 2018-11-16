@@ -22,25 +22,29 @@ function appendFiles(coded, tested) {
   //turn the test which is a buffer into string
   const codeTest = 'code-test.js'
   coded = coded + '\n'
+  const newTested = Buffer.from(tested)
   // tested = tested.toString()
   fs.appendFileSync('code-test.js', coded, 'utf8', err => {
     if (err) throw err
   })
-  fs.appendFileSync('code-test.js', tested, 'utf8', err => {
+  fs.appendFileSync('code-test.js', newTested, 'utf8', err => {
     if (err) throw err
   })
   return codeTest
 }
-async function executeFile(){
+async function executeFile(file){
+  let files;
   try {
-    const {stdout} = await execFile('mocha', ['code-test.js'])
-    let files = stdout
+    const {stdout} = await execFile('mocha', [`${file}`])
+    files = stdout
     console.log('this is STDOUT', stdout)
     console.log("typeOf File", typeof files)
     return files
   } catch (err) {
-    let files = err.stdout
-    console.log("ERROR",err.stdout);
+    console.log(err)
+    files = err.stdout
+   
+    console.log("ERROR", err.stdout);
     console.log("typeOf File", typeof files)
     return files
   }
@@ -55,8 +59,12 @@ app.get('/', (req, res) => {
 app.post('/', async (req, res, next) => {
   try{
     console.log('REQ BODY',req.body)
-    const file = await appendFiles(req.body.code, req.body.test)
-    let testResult = await executeFile()
+    const file = await appendFiles(req.body.code, req.body.spec.data)
+    console.log("FILE NAME", file)
+    console.log("Type", typeof req.body.spec.data)
+    let testResult = await executeFile('code-test.js')
+    console.log("TestResult",testResult)
+    fs.writeFileSync('code-test.js', '')
     res.json(testResult);
   }
   catch (err){
